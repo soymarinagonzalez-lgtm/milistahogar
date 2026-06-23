@@ -317,6 +317,13 @@ export default function App() {
     return propiedades.find(p => p.id === detailPropId) || null;
   }, [propiedades, detailPropId]);
 
+  // Helper: precio por m² calculado on-the-fly
+  const formatPrecioM2 = (p: { precio: number; moneda: string; m2_totales: number | null }): string => {
+    if (!p.m2_totales || p.m2_totales === 0) return '—';
+    const val = Math.round(p.precio / p.m2_totales);
+    return `${p.moneda} ${val.toLocaleString('es-AR')}/m\u00B2`;
+  };
+
   return (
     <div className="bg-brand-light text-brand-dark min-h-screen font-sans flex flex-col selection:bg-brand-accent/30 selection:text-brand-dark">
       {showOnboarding && <OnboardingModal onClose={handleCloseOnboarding} />}
@@ -579,8 +586,8 @@ export default function App() {
                           <div className="bg-brand-light/70 px-2 py-1 rounded text-center">
                             🛋️ {p.ambientes} Amb
                           </div>
-                          <div className="bg-brand-light/70 px-2 py-1 rounded text-center truncate" title={p.piso || 'N/A'}>
-                            🏢 {p.piso || '4º'}
+                          <div className="bg-brand-light/70 px-2 py-1 rounded text-center truncate" title={`Precio por m²: ${formatPrecioM2(p)}`}>
+                            💲 {formatPrecioM2(p)}
                           </div>
                         </div>
 
@@ -817,6 +824,9 @@ export default function App() {
                           <p className="text-[9px] font-mono font-medium text-gray-500 uppercase tracking-tight mt-0.5">
                             Expensas: {selectedPropertyForMap.moneda} {((selectedPropertyForMap.expensas || 30000)).toLocaleString('es-AR')}
                           </p>
+                          <p className="text-[9px] font-mono font-semibold text-[#805600]/70 uppercase tracking-tight mt-0.5">
+                            {formatPrecioM2(selectedPropertyForMap)}/m²
+                          </p>
                         </div>
                         
                         <button 
@@ -888,6 +898,9 @@ export default function App() {
                           m²
                           {sortField === 'm2_totales' ? (sortDirection === 'asc' ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />) : null}
                         </span>
+                      </th>
+                      <th className="font-sans text-xs font-bold text-gray-500 uppercase tracking-widest px-4 py-3.5 text-center whitespace-nowrap">
+                        $/m²
                       </th>
                       <th className="font-sans text-xs font-bold text-gray-500 uppercase tracking-widest px-4 py-3.5 text-center">Amb.</th>
                       <th className="font-sans text-xs font-bold text-gray-500 uppercase tracking-widest px-4 py-3.5">Piso/Orientic.</th>
@@ -980,6 +993,13 @@ export default function App() {
                             {/* m2 Total Column */}
                             <td className="px-4 py-2.5 text-center whitespace-nowrap">
                               <span className="font-mono text-gray-700 font-bold">{p.m2_totales} m²</span>
+                            </td>
+
+                            {/* Precio por m² Column */}
+                            <td className="px-4 py-2.5 text-center whitespace-nowrap">
+                              <span className="font-mono text-xs font-bold text-[#805600] bg-amber-50 px-2 py-0.5 rounded">
+                                {formatPrecioM2(p)}
+                              </span>
                             </td>
 
                             {/* Ambientes Column */}
@@ -1104,15 +1124,21 @@ export default function App() {
             {/* Information panel */}
             <div className="p-6 space-y-4">
               {/* Financial panel */}
-              <div className="flex justify-between items-center bg-brand-light/70 p-4 rounded-lg border border-gray-100">
+              <div className="grid grid-cols-3 gap-3 bg-brand-light/70 p-4 rounded-lg border border-gray-100">
                 <div>
                   <span className="text-xs text-gray-400 font-bold uppercase tracking-wider block">Valor Total</span>
-                  <span className="font-mono text-2xl font-black text-brand-primary">
+                  <span className="font-mono text-lg font-black text-brand-primary">
                     {detailedProperty.moneda} {detailedProperty.precio.toLocaleString('es-AR')}
                   </span>
                 </div>
+                <div className="text-center border-x border-gray-200/60">
+                  <span className="text-xs text-gray-400 font-bold uppercase tracking-wider block">Precio/m²</span>
+                  <span className="font-mono text-lg font-black text-[#805600]">
+                    {formatPrecioM2(detailedProperty)}
+                  </span>
+                </div>
                 <div className="text-right">
-                  <span className="text-xs text-gray-400 font-bold uppercase tracking-wider block">Expensas calculadas</span>
+                  <span className="text-xs text-gray-400 font-bold uppercase tracking-wider block">Expensas</span>
                   <span className="font-mono text-sm font-bold text-gray-500">
                     {detailedProperty.moneda} {detailedProperty.expensas ? detailedProperty.expensas.toLocaleString('es-AR') : '0'}
                   </span>
