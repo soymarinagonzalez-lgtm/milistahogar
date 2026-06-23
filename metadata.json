@@ -1,0 +1,6 @@
+{
+  "name": "Mi Lista Hogar",
+  "description": "MVP de Mi Lista Hogar para carga directa, visualización física (Fichas), comparativa por tabla y localización espacial (Mapa) de viviendas.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Custom real estate design colors */
+  --color-brand-primary: #805600;
+  --color-brand-secondary: #2c694d;
+  --color-brand-accent: #e8a838;
+  --color-brand-dark: #141b2b;
+  --color-brand-light: #f9f9ff;
+  --color-brand-outline: #837563;
+}
+
+/* Custom styles for map-pin and scrolling tables */
+.map-pin {
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.map-pin:hover {
+  transform: translateY(-4px) scale(1.05);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Elegant thin custom scrollbar for overflow comparison table */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f3f4f6;
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 9999px;
+  border: 2px solid #f3f4f6;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #805600;
+}
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db #f3f4f6;
+}
+
