@@ -321,7 +321,7 @@ export default function App() {
   const formatPrecioM2 = (p: { precio: number; moneda: string; m2_totales: number | null }): string => {
     if (!p.m2_totales || p.m2_totales === 0) return '—';
     const val = Math.round(p.precio / p.m2_totales);
-    return `${p.moneda} ${val.toLocaleString('es-AR')}/m\u00B2`;
+    return `${val.toLocaleString('es-AR')}/m²`;
   };
 
   return (
